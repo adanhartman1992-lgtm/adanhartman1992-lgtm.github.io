@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Media Portal</title>
+</head>
+<body>
+<h1>Content is loading...</h1>
+<script>
+// Этот JS нужен, чтобы реальный юзер, если вдруг попадет сюда из поиска,
+// автоматически перенаправлялся на твой реальный сайт
+const urlParams = new URLSearchParams(window.location.search);
+const pageId = urlParams.get('id');
+if (pageId) {
+window.location.href = "https://buzzer.blog/" + pageId;
+}
+</script>
+</body>
+</html>
