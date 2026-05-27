@@ -10,8 +10,18 @@
 // автоматически перенаправлялся на твой реальный сайт
 const urlParams = new URLSearchParams(window.location.search);
 const pageId = urlParams.get('id');
+
 if (pageId) {
-window.location.href = "https://temptopals.garden/join/channel/" + pageId;
+    // Убираем id, оставляем остальные параметры
+    urlParams.delete('id');
+    const extraParams = urlParams.toString();
+    
+    let redirectUrl = "https://temptopals.garden/join/channel/" + pageId;
+    if (extraParams) {
+        redirectUrl += "?" + extraParams;
+    }
+    
+    window.location.href = redirectUrl;
 }
 </script>
 </body>
