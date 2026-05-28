@@ -1,33 +1,27 @@
-name: Parser
-
+name: Auto News Parser
 on:
-  push:
-    branches: [ main ]
   schedule:
-    - cron: '0 */6 * * *'  # каждые 6 часов
+    - cron: '0 */3 * * *' # Запуск каждые 3 часа
+  workflow_dispatch: # Позволяет запускать вручную кнопкой
 
 jobs:
-  parse:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      
-      - name: Install deps
-        run: pip install feedparser beautifulsoup4
-      
-      - name: Run parser
-        run: python parser.py
-      
-      - name: Save results
-        run: |
-          git config user.email "bot@bot.com"
-          git config user.name "Bot"
-          git add .
-          git diff --staged --quiet || git commit -m "update data"
-          git push
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: pip install feedparser beautifulsoup4
+    - name: Run parser
+      run: python parser.py
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "NewsBot"
+        git config --global user.email "bot@news.com"
+        git add .
+        git diff-index --quiet HEAD || git commit -m "Автоматическое обновление новостей"
+        git push
